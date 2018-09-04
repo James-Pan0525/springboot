@@ -6,8 +6,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
+@RabbitListener(queues = "object")
 public class ReceiverEntity {
-    @RabbitListener(queues = "object")
     @RabbitHandler
     public void process(User user) {
         System.out.println("Receiver entity : " + user.toString());
