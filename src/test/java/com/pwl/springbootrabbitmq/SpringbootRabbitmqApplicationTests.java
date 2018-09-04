@@ -1,8 +1,9 @@
 package com.pwl.springbootrabbitmq;
 
 import com.pwl.springbootrabbitmq.entity.User;
-import com.pwl.springbootrabbitmq.sender.HelloSender;
-import com.pwl.springbootrabbitmq.sender.SendEntity;
+import com.pwl.springbootrabbitmq.sender.DirectSender;
+import com.pwl.springbootrabbitmq.sender.FanoutSender;
+import com.pwl.springbootrabbitmq.sender.TopicSender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,27 +15,48 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class SpringbootRabbitmqApplicationTests {
 
     @Autowired
-    private HelloSender helloSender;
+    private FanoutSender fanoutSender;
     @Autowired
-    private SendEntity sendEntity;
+    private TopicSender topicSender;
+    @Autowired
+    private DirectSender directSender;
 
+    /**
+     * Fanout测试
+     * @throws Exception
+     */
     @Test
-    public void hello() throws Exception {
-        helloSender.send();
-    }
-
-    @Test
-    public void oneToMany() throws Exception {
-        for (int i=1;i<100;i++){
-            helloSender.send(String.valueOf(i));
-        }
-    }
-
-    @Test
-    public void testEntity() throws Exception {
+    public void testFanout() throws Exception {
         User user=new User();
         user.setId("1");
         user.setName("pwl");
-        sendEntity.send(user);
+        fanoutSender.send(user);
     }
+
+
+
+    /**
+     * TOPIC测试
+     * @throws Exception
+     */
+    @Test
+    public void testTopic() throws Exception {
+        User user=new User();
+        user.setId("1");
+        user.setName("pwl");
+        topicSender.send(user);
+    }
+
+    /**
+     * DIRECT测试
+     * @throws Exception
+     */
+    @Test
+    public void testDirect() throws Exception {
+        User user=new User();
+        user.setId("1");
+        user.setName("pwl");
+        directSender.send(user);
+    }
+
 }
